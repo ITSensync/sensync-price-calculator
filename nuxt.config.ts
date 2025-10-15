@@ -7,6 +7,10 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  icon: {
+    mode: 'css',
+    cssLayer: 'base'
+  },
   css: ["~/assets/css/main.css"],
   modules: ["@nuxt/icon", "@nuxt/fonts", "@nuxt/image", "@pinia/nuxt"],
 });
