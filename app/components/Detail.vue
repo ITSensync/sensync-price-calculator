@@ -74,7 +74,7 @@ const totalPriceContract = computed(() => totalPrice.value * contractYears.value
         <p class=" font-bold">SPARING</p>
       </div>
       <p class="text-lg font-normal">
-        RP. {{ totalPriceContract }}K / <span class="text-sm">year</span>
+        RP. {{ totalPriceContract }}K / <span class="text-sm">tahun</span>
       </p>
     </div>
 
@@ -182,7 +182,7 @@ const totalPriceContract = computed(() => totalPrice.value * contractYears.value
 
 <style scoped>
 div {
-  font-family: Roboto, sans-serif;
+  font-family: Poppins, sans-serif;
 }
 
 .collapse-enter-active,
