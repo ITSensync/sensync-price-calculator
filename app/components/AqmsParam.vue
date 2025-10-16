@@ -14,11 +14,31 @@ const weatherSensors = computed(() =>
   data.value.filter((sensor) => sensor.type == "weather")
 );
 
-const toggleOpen = (i) => {
-  data.value[i].open = !data.value[i].open;
+const toggleOpen = (selectedSensor) => {
+  data.value.forEach((sensor) => {
+    if (sensor !== selectedSensor) sensor.open = false;
+  });
+  selectedSensor.open = !selectedSensor.open;
 };
 
-const aqmsType = ref(aqmsStore.aqmsType);
+const isToggleDisabled = (sensor) => {
+  return (
+    (aqmsStore.aqmsType === "mini" &&
+      (sensor.name === "PM10" || sensor.type === "gas")) ||
+    (aqmsStore.aqmsType === "portable" &&
+      (sensor.name === "PM10" || sensor.name === "HC" || sensor.name === "CO" || sensor.name === "O3"))
+  );
+};
+
+watchEffect(() => {
+  data.value.forEach((sensor) => {
+    if (isToggleDisabled(sensor)) {
+      sensor.checked = false;
+    } else {
+      sensor.checked = true;
+    }
+  });
+});
 </script>
 
 <template>
@@ -35,13 +55,14 @@ const aqmsType = ref(aqmsStore.aqmsType);
         <!-- HEADER -->
         <div
           class="flex justify-between items-center px-4 py-3 cursor-pointer select-none"
-          @click="toggleOpen(sensor.id)"
+          @click="toggleOpen(sensor)"
         >
           <div class="flex items-center gap-2">
             <input
               type="checkbox"
               class="toggle toggle-info"
               v-model="sensor.checked"
+              :disabled="isToggleDisabled(sensor)"
               @click.stop
             />
             <p class="text-lg font-bold text-zinc-900">{{ sensor.name }}</p>
@@ -87,13 +108,14 @@ const aqmsType = ref(aqmsStore.aqmsType);
         <!-- HEADER -->
         <div
           class="flex justify-between items-center px-4 py-3 cursor-pointer select-none"
-          @click="toggleOpen(sensor.id)"
+          @click="toggleOpen(sensor)"
         >
           <div class="flex items-center gap-2">
             <input
               type="checkbox"
               class="toggle toggle-info"
               v-model="sensor.checked"
+              :disabled="isToggleDisabled(sensor)"
               @click.stop
             />
             <p class="text-lg font-bold text-zinc-900">{{ sensor.name }}</p>
@@ -139,7 +161,7 @@ const aqmsType = ref(aqmsStore.aqmsType);
         <!-- HEADER -->
         <div
           class="flex justify-between items-center px-4 py-3 cursor-pointer select-none"
-          @click="toggleOpen(sensor.id)"
+          @click="toggleOpen(sensor)"
         >
           <div class="flex items-center gap-2">
             <input

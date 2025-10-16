@@ -28,8 +28,8 @@ const mainStore = useMainStore();
         RP.
         {{
           mainStore.productType === "sparing"
-            ? sparingStore.totalPriceContract
-            : aqmsStore.totalPriceContract
+            ? currencyFormat(sparingStore.totalPriceContract)
+            : currencyFormat(aqmsStore.totalPriceContract)
         }}K /
         <span class="text-sm font-normal">tahun</span>
       </p>
