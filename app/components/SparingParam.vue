@@ -1,11 +1,15 @@
 <script setup>
-const sparingStore = useSparingStore();
-const data = ref(sparingStore.sensors);
+const mainStore = useMainStore();
 
 const emit = defineEmits(["toggle"]);
 
 const toggleOpen = (i) => {
-  data.value[i].open = !data.value[i].open;
+  const product = mainStore.activeProduct;
+  if (!product || !product.sensors) return;
+
+  product.sensors.forEach((s, index) => {
+    s.open = index === i ? !s.open : false;
+  });
 };
 </script>
 
@@ -14,7 +18,7 @@ const toggleOpen = (i) => {
     <legend class="fieldset-legend text-xl mb-2">Parameter</legend>
 
     <div
-      v-for="(sensor, i) in data"
+      v-for="(sensor, i) in mainStore.activeProduct.sensors"
       :key="i"
       class="border border-gray-300 bg-white rounded-lg mb-2 overflow-hidden"
     >

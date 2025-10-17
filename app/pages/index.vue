@@ -1,7 +1,8 @@
 <template>
-  <div class="bg-white h-full w-[65vw] p-10 flex flex-row gap-10 justify-center">
+  <div class="bg-white w-[80vw] p-10 flex flex-row gap-5 justify-center min-h-screen">
     <!-- <p>INDEX</p> -->
-    <Detail />
+    <Detail v-if="listLength > 0 && mainStore.activeProduct !== null" />
+    <EmptyDetail v-else />
     <Bills />
     <!-- <div class="w-full h-full">
     </div> -->
@@ -9,8 +10,11 @@
 </template>
 
 <script setup>
-import Bills from "~/components/Bills.vue";
+import Bills from "~/components/SummaryBills.vue";
 import Detail from "~/components/Detail.vue";
+
+const mainStore = useMainStore();
+const listLength = computed(() => mainStore.listBillsProduct?.length || 0);
 
 useHead({
   title: "Pricing & Personalization",

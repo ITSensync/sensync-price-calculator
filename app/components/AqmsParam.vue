@@ -1,6 +1,6 @@
 <script setup>
-const aqmsStore = useAqmsStore();
-const data = ref(aqmsStore.sensors);
+const mainStore = useMainStore();
+const data = computed(() => mainStore.activeProduct.sensors);
 
 const emit = defineEmits(["toggle"]);
 
@@ -23,9 +23,9 @@ const toggleOpen = (selectedSensor) => {
 
 const isToggleDisabled = (sensor) => {
   return (
-    (aqmsStore.aqmsType === "mini" &&
+    (mainStore.aqmsType === "mini" &&
       (sensor.name === "PM10" || sensor.type === "gas")) ||
-    (aqmsStore.aqmsType === "portable" &&
+    (mainStore.aqmsType === "portable" &&
       (sensor.name === "PM10" || sensor.name === "HC" || sensor.name === "CO" || sensor.name === "O3"))
   );
 };
